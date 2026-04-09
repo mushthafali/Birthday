@@ -119,7 +119,9 @@ const CarouselSlide = memo(({
         >
             <div
                 ref={photoContainerRef}
-                className={`relative flex items-center justify-center preserve-3d backface-hidden ${isLandscape ? "w-[1000px] h-[750px] max-w-[95vw] max-h-[80vh]" : "w-[680px] h-[1000px] max-w-[85vw] max-h-[85vh]"}`}
+                className={`relative flex items-center justify-center preserve-3d backface-hidden ${isLandscape
+                    ? "w-[1000px] h-[750px] max-w-[85vw] max-h-[60vh] md:max-w-[95vw] md:max-h-[80vh]"
+                    : "w-[680px] h-[1000px] max-w-[75vw] max-h-[75vh] md:max-w-[85vw] md:max-h-[85vh]"}`}
                 style={{
                     aspectRatio: isLandscape ? '1000/750' : '680/1000',
                     boxShadow: (isWithinVramWindow && isDecoded) ? '0 50px 100px -20px rgba(0,0,0,0.5)' : 'none',
@@ -204,10 +206,12 @@ export function ThreeDGalleryCarousel({ images, selectedIndex, onSelect }: {
             }
 
             const isCenter = relIdx === 0
+            const isMobile = window.innerWidth < 768
 
-            // Target Values
-            const xPos = relIdx * 640
-            const zPos = isCenter ? 0 : -Math.abs(relIdx) * 600
+            // Target Values - Responsive spacing
+            const spacing = isMobile ? 380 : 640
+            const xPos = relIdx * spacing
+            const zPos = isCenter ? 0 : -Math.abs(relIdx) * (isMobile ? 400 : 600)
             const rotY = relIdx * -35
             const opacity = Math.max(1 - Math.abs(relIdx) * 0.45, 0)
             const scale = 1 - Math.abs(relIdx) * 0.15
