@@ -119,47 +119,29 @@ const CarouselSlide = memo(({
         >
             <div
                 ref={photoContainerRef}
-                className={`relative flex items-center justify-center preserve-3d backface-hidden overflow-hidden ${isLandscape
-                    ? "w-[1000px] h-[750px] max-w-[85vw] max-h-[60vh] md:max-w-[95vw] md:max-h-[80vh]"
-                    : "w-[680px] h-[1000px] max-w-[75vw] max-h-[75vh] md:max-w-[85vw] md:max-h-[85vh]"}`}
+                className={`relative flex items-center justify-center preserve-3d backface-hidden ${isLandscape ? "w-[1088px] h-[858px] max-w-[95vw] max-h-[80vh]" : "w-[843px] h-[1148px] max-w-[85vw] max-h-[85vh]"}`}
                 style={{
-                    aspectRatio: isLandscape ? '1000/750' : '680/1000',
+                    aspectRatio: isLandscape ? '1088/858' : '843/1148',
                     boxShadow: (isWithinVramWindow && isDecoded) ? '0 50px 100px -20px rgba(0,0,0,0.5)' : 'none',
                     borderRadius: '20px',
-                    // REMOVED CSS transition to prevent contention
                 }}
             >
-                {/* Photo Layer - Slightly tighter percentages for a safer fit under the frame */}
-                <div className={isLandscape ? "relative w-[87.2%] h-[85.8%]" : "relative w-[80.5%] h-[74.8%]"}>
+                {/* Photo Layer - Full Size (Frame removed temporarily) */}
+                <div className="relative w-full h-full">
                     {isWithinVramWindow && (
                         <NextImage
                             src={src}
                             alt=""
                             fill
-                            sizes={isLandscape ? "1000px" : "680px"}
+                            sizes={isLandscape ? "1088px" : "843px"}
                             priority={isCenter}
-                            className={`object-cover rounded-[10px] transition-opacity duration-600 ${isDecoded ? "opacity-100" : "opacity-0"}`}
+                            className={`object-cover rounded-[20px] transition-opacity duration-600 ${isDecoded ? "opacity-100" : "opacity-0"}`}
                             onLoad={() => setIsDecoded(true)}
                         />
                     )}
                 </div>
 
-                {/* Frame Layer - Using w-full instead of inset-0 to prevent squishing */}
-                <div
-                    className={`absolute top-0 bottom-0 w-full pointer-events-none z-10 ${isLandscape ? "left-[3%]" : "left-[3.5%]"}`}
-                    style={{
-                        opacity: (isWithinVramWindow && isDecoded) ? 1 : 0,
-                        transition: 'opacity 0.6s ease-in-out'
-                    }}
-                >
-                    <NextImage
-                        src={frameSrc}
-                        alt=""
-                        fill
-                        className="object-contain"
-                        sizes="(max-width: 1000px) 100vw, 1000px"
-                    />
-                </div>
+                {/* Frame Layer removed temporarily for clean look */}
             </div>
         </div>
     )
@@ -206,12 +188,10 @@ export function ThreeDGalleryCarousel({ images, selectedIndex, onSelect }: {
             }
 
             const isCenter = relIdx === 0
-            const isMobile = window.innerWidth < 768
 
-            // Target Values - Responsive spacing
-            const spacing = isMobile ? 380 : 640
-            const xPos = relIdx * spacing
-            const zPos = isCenter ? 0 : -Math.abs(relIdx) * (isMobile ? 400 : 600)
+            // Target Values
+            const xPos = relIdx * 640
+            const zPos = isCenter ? 0 : -Math.abs(relIdx) * 600
             const rotY = relIdx * -35
             const opacity = Math.max(1 - Math.abs(relIdx) * 0.45, 0)
             const scale = 1 - Math.abs(relIdx) * 0.15
