@@ -119,7 +119,7 @@ const CarouselSlide = memo(({
         >
             <div
                 ref={photoContainerRef}
-                className={`relative flex items-center justify-center preserve-3d backface-hidden ${isLandscape ? "w-[1000px] h-[750px] max-w-[90vw] max-h-[80vh]" : "w-[680px] h-[1000px] max-w-[150vw] max-h-[150vh]"}`}
+                className={`relative flex items-center justify-center preserve-3d backface-hidden ${isLandscape ? "w-[1000px] h-[750px] max-w-[95vw] max-h-[80vh]" : "w-[680px] h-[1000px] max-w-[85vw] max-h-[85vh]"}`}
                 style={{
                     aspectRatio: isLandscape ? '1000/750' : '680/1000',
                     boxShadow: (isWithinVramWindow && isDecoded) ? '0 50px 100px -20px rgba(0,0,0,0.5)' : 'none',
@@ -127,8 +127,8 @@ const CarouselSlide = memo(({
                     // REMOVED CSS transition to prevent contention
                 }}
             >
-                {/* Photo Layer */}
-                <div className={isLandscape ? "relative w-[875px] h-[645px]" : "relative w-[550px] h-[750px]"}>
+                {/* Photo Layer - Uses responsive percentages instead of fixed pixels */}
+                <div className={isLandscape ? "relative w-[87.5%] h-[86%]" : "relative w-[80.8%] h-[75%]"}>
                     {isWithinVramWindow && (
                         <NextImage
                             src={src}
@@ -142,9 +142,9 @@ const CarouselSlide = memo(({
                     )}
                 </div>
 
-                {/* Frame Layer */}
+                {/* Frame Layer - Uses responsive offsets */}
                 <div
-                    className={`absolute inset-0 pointer-events-none z-10 ${isLandscape ? "left-[30px]" : "left-[24px]"}`}
+                    className={`absolute inset-0 pointer-events-none z-10 ${isLandscape ? "left-[3%]" : "left-[3.5%]"}`}
                     style={{
                         opacity: (isWithinVramWindow && isDecoded) ? 1 : 0,
                         transition: 'opacity 0.6s ease-in-out'

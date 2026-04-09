@@ -208,7 +208,12 @@ export function SurpriseCarousel() {
     const carouselRef = useRef<HTMLDivElement>(null)
     const heartRef = useRef<HTMLSpanElement>(null)
     const butterfly1Ref = useRef<HTMLDivElement>(null)
-    // GIF refresh logic removed for better native animation performance
+    const [gifKey, setGifKey] = useState(0)
+
+    // Force GIF refresh on mount to ensure they play from the start
+    useEffect(() => {
+        setGifKey(Date.now())
+    }, [])
 
     const cardWidth = 380 + 32 // width + gap
     const totalWidth = cardWidth * surpriseCards.length
@@ -308,7 +313,8 @@ export function SurpriseCarousel() {
                         {/* Second Butterfly (Facing Heart) */}
                         <div className="absolute -right-24 md:-right-36 -top-12 md:-top-20 w-32 h-32 md:w-56 md:h-56 pointer-events-none select-none animate-float -scale-x-100">
                             <NextImage
-                                src="/assets/kupukupu.gif"
+                                key={`butterfly-heart-${gifKey}`}
+                                src={`/assets/kupukupu.gif?v=${gifKey}`}
                                 alt="Butterfly"
                                 width={200}
                                 height={200}
@@ -330,7 +336,8 @@ export function SurpriseCarousel() {
             <div ref={butterfly1Ref} className="absolute top-20 left-20 w-48 h-48 md:w-80 md:h-80 z-20 pointer-events-none select-none">
                 <div className="animate-float w-full h-full">
                     <NextImage
-                        src="/assets/kupukupu.gif"
+                        key={`butterfly-accent-${gifKey}`}
+                        src={`/assets/kupukupu.gif?v=${gifKey}`}
                         alt="Butterfly"
                         width={400}
                         height={400}
